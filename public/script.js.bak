@@ -1,0 +1,54 @@
+const socket = io(); // Connect to the WebSocket server
+const timersDiv = document.getElementById('timers'); // Div to display timers
+
+// Render timers
+function renderTimers(timers) {
+    timersDiv.innerHTML = ''; // Clear the previous content
+    timers.forEach(timer => {
+        const timerDiv = document.createElement('div');
+        timerDiv.className = 'timer';
+        timerDiv.innerHTML = `
+            <h3>${timer.name}</h3>
+            <p>Value: ${timer.value}</p>
+        `;
+        timersDiv.appendChild(timerDiv);
+    });
+}
+
+// Render static values
+function renderStatic(staticData) {
+    const staticDiv = document.createElement('div');
+    staticDiv.innerHTML = '<h2>Static Values</h2>';
+    staticData.forEach(staticItem => {
+        const itemDiv = document.createElement('div');
+        itemDiv.innerHTML = `<strong>${staticItem.name}:</strong> ${staticItem.value}`;
+        staticDiv.appendChild(itemDiv);
+    });
+    document.body.appendChild(staticDiv);
+}
+
+// Fetch and render all data
+fetch('/data')
+    .then(response => response.json())
+    .then(data => {
+        renderTimers(data.timers);
+        renderStatic(data.static);
+    });
+
+// Timer control functions
+// function startTimer(timerName) {
+    // socket.emit('start-timer', timerName);
+// }
+
+// function pauseTimer(timerName) {
+    // socket.emit('pause-timer', timerName);
+// }
+
+// function resetTimer(timerName) {
+    // socket.emit('reset-timer', timerName);
+// }
+
+// Update timers in real-time via WebSocket
+socket.on('update-timers', (timers) => {
+    renderTimers(timers);
+});
