@@ -10,7 +10,7 @@ function renderTimers(timers) {
         timerDiv.className = 'timer';
         timerDiv.innerHTML = `
             <h3>${timer.name}</h3>
-            <p>Value: ${timer.value}</p>
+            //<p>Value: ${timer.value}</p>
             <button onclick="startTimer('${timer.name}')">Start</button>
             <button onclick="pauseTimer('${timer.name}')">Pause</button>
             <button onclick="resetTimer('${timer.name}')">Reset</button>
